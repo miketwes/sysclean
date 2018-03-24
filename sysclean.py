@@ -17,9 +17,12 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
+import os
 import sys
 import subprocess
+import pathlib
+pathlib.Path('/root/tmp').mkdir(mode=0o777, parents=True, exist_ok=True)
+os.environ["XDG_RUNTIME_DIR"] = "/root/tmp"
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -30,6 +33,9 @@ class Sysclean_gui(QWidget):
     def __init__(self):
 		
         super(Sysclean_gui, self).__init__()
+        font = QFont()
+        font.setPointSize(14)
+        self.setStyleSheet('font-size: 14pt; font-family: Courier;')
         self.initUI()        
         
     def initUI(self):
@@ -64,6 +70,7 @@ class Sysclean_gui(QWidget):
         self.reviewEdit.append("cleaning... \n\n")
         QApplication.processEvents()
         list = self.cmdlist
+        sizediff = 0
         for cmd in list:			
             self.reviewEdit.insertPlainText(clean_up(cmd))
             QApplication.processEvents()        

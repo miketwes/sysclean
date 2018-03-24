@@ -2,7 +2,7 @@ import subprocess
 import math
 
 
-class syclean():
+class Syclean():
 
     def convertSize(self,size):
         size_name = ("KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
@@ -28,30 +28,32 @@ class syclean():
 if __name__ == '__main__':
       
         total_size = []
-        sy = syclean()
+        sy = Syclean()
         cmd = 'deborphan -z'        
         list = sy.getcmd1(cmd)        
         deborphan_size = 0
         for x in list:
             deborphan_size += int(x.strip().split(b' ')[0])
         total_size.append(deborphan_size)    
-        print('deborphan size: ' + sy.convertSize(deborphan_size))
+        if deborphan_size > 0:
+            print('deborphan size: ' + sy.convertSize(deborphan_size))
 
         cmd = 'du $HOME/.bash_history'
         user_bash_history_size = sy.getcmd2(cmd)
         total_size.append(user_bash_history_size)
-        print('user_bash_history_size : ' + sy.convertSize(user_bash_history_size))
+        if user_bash_history_size > 0:
+            print('user_bash_history_size : ' + sy.convertSize(user_bash_history_size))
         
         cmd = 'sudo du /root/.bash_history'
         root_bash_history_size = sy.getcmd2(cmd)
         total_size.append(root_bash_history_size)
-        print('root_bash_history_size : ' + sy.convertSize(root_bash_history_size))
+        print(deborphan_size)
+        print(user_bash_history_size)
+        print(root_bash_history_size)
+        if root_bash_history_size > 0:
+            print('root_bash_history_size : ' + sy.convertSize(root_bash_history_size))
 
 
         cl = ['du -s /var/tmp','du -s /tmp','du /root/.bash_history','du $HOME/.bash_history']
         for c in cl:
             print(c.split(' ')[-1])
-
-
-
-

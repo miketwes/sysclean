@@ -41,7 +41,7 @@ def getsize():
 	
 	usrn = subprocess.check_output('env | grep PWD', shell=True).splitlines()[0].split(b'=')[1].decode()       
 	total_size = 0
-	list = []
+	sizelist = []
 	
 	c0 = [	
 			["free | grep Mem: | awk '{print $6+$7}'","buffers_cache"],
@@ -97,7 +97,7 @@ def getsize():
 				s = int(s1[0].decode())
 				if s > 0:
 					total_size += s
-					list.append(cmdtext + ': ' + convertSize(s))
+					sizelist.append(cmdtext + ': ' + convertSize(s))
 					cmdlist.append(c1[i])
 		i += 1				    
 				
@@ -109,10 +109,19 @@ def getsize():
 	stdout, stderr,exitCode = runcmd(cmd)
 	if stdout != b'':	
 			stdout = int(stdout.splitlines()[0].decode())
-	list.append("")
-	list.append('total_size: ' + convertSize(total_size)) 
-	list.append('available disk space: ' + convertSize(stdout)) 
-	return (list,cmdlist,total_size,stdout)
+	sizelist.append("")
+	
+	if total_size > 0:
+		sizelist.append('total_size: ' + convertSize(total_size)) 
+	else:
+		sizelist.append('total_size: 0') 
+	
+	if stdout > 0:
+		sizelist.append('available disk space: ' + convertSize(stdout)) 
+	else:
+		sizelist.append('available disk space: 0') 
+
+	return (sizelist, cmdlist, total_size,stdout)
 
 
 def clean_up(cmd):
@@ -122,5 +131,3 @@ def clean_up(cmd):
 		return cmd + " success \n"
 	else:
 		return cmd + " failed " + stderr.decode() + "\n"
-
-

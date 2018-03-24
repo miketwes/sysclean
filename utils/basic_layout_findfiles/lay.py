@@ -12,6 +12,10 @@ class Dialog(QDialog):
     
     def __init__(self):
         super(Dialog, self).__init__()
+        
+        font = QFont()
+        font.setPointSize(14)
+        self.setStyleSheet('font-size: 14pt; font-family: Courier;')
 
         self.createMenu()
         self.createHorizontalGroupBox()
