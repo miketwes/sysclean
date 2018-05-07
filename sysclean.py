@@ -70,7 +70,7 @@ class Sysclean_gui(QWidget):
         self.reviewEdit.append("cleaning... \n\n")
         QApplication.processEvents()
         list = self.cmdlist
-        sizediff = 0
+        sizediff = '0'
         for cmd in list:			
             self.reviewEdit.insertPlainText(clean_up(cmd))
             QApplication.processEvents()        
